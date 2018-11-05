@@ -37,7 +37,7 @@ const mainRoutes = {
     { path: '/demo-echarts', component: _import('demo/echarts'), name: 'demo-echarts', meta: { title: 'demo-echarts', isTab: true } },
     { path: '/demo-ueditor', component: _import('demo/ueditor'), name: 'demo-ueditor', meta: { title: 'demo-ueditor', isTab: true } }
   ],
-  beforeEnter (to, from, next) {
+  beforeEnter (...to, from, next) {
     let token = Vue.cookie.get('token')
     if (!token || !/\S/.test(token)) {
       next({ name: 'login' })
@@ -70,7 +70,7 @@ router.beforeEach((to, from, next) => {
         router.options.isAddDynamicMenuRoutes = true
         sessionStorage.setItem('menuList', JSON.stringify(data.data.menuList || '[]'))
         sessionStorage.setItem('permissions', JSON.stringify(data.data.permissions || '[]'))
-        next({ ...to, replace: true })
+        next({to, replace: true })
       } else {
         sessionStorage.setItem('menuList', '[]')
         sessionStorage.setItem('permissions', '[]')
