@@ -1,14 +1,17 @@
 <template>
   <el-dialog :title="!dataForm.id ? '新增' : '修改'" :close-on-click-modal="false" :visible.sync="visible">
     <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
-      <el-form-item label="参数名" prop="paramKey">
-        <el-input v-model="dataForm.paramKey" placeholder="参数名"></el-input>
+      <el-form-item label="项目分类名称" prop="name">
+        <el-input v-model="dataForm.name" placeholder="项目分类名称"></el-input>
       </el-form-item>
-      <el-form-item label="参数值" prop="paramValue">
-        <el-input v-model="dataForm.paramValue" placeholder="参数值"></el-input>
+      <el-form-item label="缩略图" prop="picUrl">
+        <img v-if="dataForm.picUrl" :src="dataForm.picUrl" alt="">
+        <el-upload v-show="showUpload" action="/artisan/file/upload" list-type="picture-card" :on-success="showImageHandle">
+          <i class="el-icon-plus"></i>
+        </el-upload>
       </el-form-item>
-      <el-form-item label="备注" prop="remark">
-        <el-input v-model="dataForm.remark" placeholder="备注"></el-input>
+      <el-form-item label="项目描述" prop="proDesc">
+        <el-input v-model="dataForm.proDesc" placeholder="项目描述"></el-input>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -25,18 +28,11 @@ export default {
       visible: false,
       dataForm: {
         id: 0,
-        paramKey: "",
-        paramValue: "",
-        remark: ""
+        name: "",
+        picUrl: "",
+        proDesc: ""
       },
-      dataRule: {
-        paramKey: [
-          { required: true, message: "参数名不能为空", trigger: "blur" }
-        ],
-        paramValue: [
-          { required: true, message: "参数值不能为空", trigger: "blur" }
-        ]
-      }
+      showUpload: true
     };
   },
   methods: {
