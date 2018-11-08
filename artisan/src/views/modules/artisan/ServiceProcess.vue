@@ -14,7 +14,9 @@
       </el-table-column>
       <el-table-column prop="content" header-align="center" align="center" width="100" label="更新内容">
       </el-table-column>
-      <img prop="pics" v-for="pic in pics" :src="pic" alt="">
+      <el-table-column prop="pic" header-align="center" align="center" width="100" label="图片">
+        <!-- <img v-for="pic in dataList.pics" :src="pic" alt="我是一个图片"> -->
+      </el-table-column>
 
     </el-table>
     <el-pagination @size-change="sizeChangeHandle" @current-change="currentChangeHandle" :current-page="pageIndex" :page-sizes="[10, 20, 50, 100]" :page-size="pageSize" :total="totalPage" layout="total, sizes, prev, pager, next, jumper">
@@ -38,6 +40,7 @@ export default {
       dataForm: {
         userName: ""
       },
+      orderId: "",
       dataList: [],
       pageIndex: 1,
       pageSize: 10,
@@ -59,9 +62,11 @@ export default {
     getDataList() {
       this.dataListLoading = true;
       this.$http({
-        url: this.$http.adornUrl("/artisan/serviceprocess/list/page"),
-        method: "get",
-        params: this.$http.adornParams({})
+        url: this.$http.adornUrl("/artisan/serviceprocess/query/process"),
+        method: "post",
+        data: this.$http.adornData({
+          orderId: this.orderId
+        })
       }).then(({ data }) => {
         if (data && data.code === 200) {
           this.dataList = data.data.list;
@@ -75,6 +80,7 @@ export default {
     },
     init(id, orderId) {
       this.visible = true;
+      this.orderId = orderId;
       this.getDataList();
     },
     // 每页数
@@ -97,7 +103,7 @@ export default {
       this.showServiceProcess = true;
       this.$nextTick(() => {
         this.visible = false;
-        this.$refs.serviceProcessAdd.init();
+        this.$refs.serviceProcessAdd.init(this.orderId);
       });
     },
     // 删除

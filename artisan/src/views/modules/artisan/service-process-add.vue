@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="新增服务进度" :close-on-click-modal="false" :visible.sync="visible">
+  <el-dialog title="新增服务进度" :close-on-click-modal="false" :visible.sync="visible" append-to-body>
     <el-form :model="dataForm" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
       <el-form-item label="服务图片" prop="picUrl">
         <img v-show="showImage" :src="dataForm.picUrl" alt="">
@@ -8,8 +8,8 @@
         </el-upload>
       </el-form-item>
       </el-form-item>
-      <el-form-item label="服务进度描述" prop="materialRemark">
-        <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" v-model="dataForm.materialRemark" placeholder="备注"></el-input>
+      <el-form-item label="服务进度描述" prop="content">
+        <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" v-model="dataForm.content" placeholder="备注"></el-input>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -28,15 +28,18 @@ export default {
       visible: false,
       dataForm: {
         picUrl: "",
-        materialRemark: ""
+        orderId: "",
+        content: ""
       },
+      picUrls: [],
       showImage: true,
       showUpload: false,
       showServiceProcessAdd: true
     };
   },
   methods: {
-    init() {
+    init(orderId) {
+      this.dataForm.orderId = orderId;
       this.visible = true;
       this.$nextTick(() => {
         this.$refs["dataForm"].resetFields();
@@ -45,21 +48,18 @@ export default {
     },
     showImageHandle(res) {
       this.showImage = true;
-      this.showUpload = false;
-      this.dataForm.picUrl = res.data;
+      this.picUrls.push(res.data);
     },
     dataFormSubmit() {
       this.$refs["dataForm"].validate(valid => {
         if (valid) {
           this.$http({
-            url: this.$http.adornUrl(
-              `/artisan/material/${!this.dataForm.id ? "save" : "update"}`
-            ),
+            url: this.$http.adornUrl(`/artisan/serviceprocess/save/process`),
             method: "post",
             data: this.$http.adornData({
               id: this.dataForm.id || undefined,
-              picUrl: this.dataForm.picUrl,
-              materialRemark: this.dataForm.materialRemark,
+              picUrls: this.picUrls,
+              content: this.dataForm.content,
               orderId: this.dataForm.orderId
             })
           }).then(({ data }) => {

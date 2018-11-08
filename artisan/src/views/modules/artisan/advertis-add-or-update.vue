@@ -9,11 +9,12 @@
         <!-- <el-input v-model="dataForm.picPosition" placeholder="图片位置"></el-input> -->
       </el-form-item>
       <el-form-item label="图片" prop="remark">
-        <el-upload action="/artisan/file/upload" v-model="dataForm.picUrl" placeholder="图片">
-          <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-          <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload(res)">上传到服务器</el-button>
-          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-        </el-upload>
+        <el-form-item label="清单图片" prop="picUrl">
+          <img v-show="!showUpload" :src="dataForm.picUrl" alt="">
+          <el-upload v-show="showUpload" action="/artisan/file/upload" list-type="picture-card" :on-success="showImageHandle">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-form-item>
       </el-form-item>
       <el-form-item label="排序值" prop="remark">
         <el-input v-model="dataForm.adsOrder" placeholder="排序值"></el-input>
@@ -53,6 +54,7 @@ export default {
         adsRemark: "",
         redirectUrl: ""
       },
+      showUpload: true,
       dataRule: {
         // paramKey: [
         //   { required: true, message: "参数名不能为空", trigger: "blur" }
@@ -77,17 +79,20 @@ export default {
             method: "get",
             params: this.$http.adornParams()
           }).then(({ data }) => {
-            // if (data && data.code === 200) {
-            //   this.dataForm.paramKey = data.data.paramKey;
-            //   this.dataForm.paramValue = data.data.paramValue;
-            //   this.dataForm.remark = data.data.remark;
-            // }
+            if (data && data.code === 200) {
+              this.dataForm.picPosition = data.data.picPosition;
+              this.dataForm.picUrl = data.data.picUrl;
+              this.dataForm.adsOrder = data.data.adsOrder;
+              this.dataForm.redirectUrl = data.data.redirectUrl;
+              this.dataForm.adsRemark = data.data.adsRemark;
+            }
           });
         }
       });
     },
-    submitUpload(res) {
-      console.log(res);
+    showImageHandle(res) {
+      this.showUpload = false;
+      this.dataForm.picUrl = res.data;
     },
     // 表单提交
     dataFormSubmit() {
@@ -104,7 +109,8 @@ export default {
               adsOrder: this.dataForm.adsOrder,
               redirectUrl: this.dataForm.redirectUrl,
               adsRemark: this.dataForm.adsRemark,
-              redirectUrl: this.dataForm.redirectUrl
+              redirectUrl: this.dataForm.redirectUrl,
+              picUrl: this.dataForm.picUrl
             })
           }).then(({ data }) => {
             if (data && data.code === 200) {

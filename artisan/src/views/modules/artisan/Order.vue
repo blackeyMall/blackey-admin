@@ -42,7 +42,6 @@
     <confirm-order v-if="showComfirmOrder" ref="confirmOrder"></confirm-order>
     <material-list v-if="showMaterialList" ref="materialList"></material-list>
     <service-process v-if="showServiceProcess" ref="serviceProcess"></service-process>
-
   </div>
 </template>
 
