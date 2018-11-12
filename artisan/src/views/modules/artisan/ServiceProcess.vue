@@ -12,10 +12,17 @@
       <el-table-column prop="createdDate" header-align="center" align="center" width="100" label="服务进度更新时间">
       </el-table-column>
       </el-table-column>
-      <el-table-column prop="content" header-align="center" align="center" width="100" label="更新内容">
+      <el-table-column prop="content" header-align="center" align="center" label="更新内容">
       </el-table-column>
-      <el-table-column prop="pic" header-align="center" align="center" width="100" label="图片">
+      <el-table-column prop="pics" header-align="center" align="center" label="图片">
         <!-- <img v-for="pic in dataList.pics" :src="pic" alt="我是一个图片"> -->
+        <template slot-scope="scope">
+          <div class="imgs" style="display: flex;">
+            <div v-for="item of scope.row.pics" class="img" style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; margin: 0 5px;">
+              <img :src="item" style="width: 100%; position: relative; top: 50%; transform: translateY(-50%);">
+            </div>
+          </div>
+        </template>
       </el-table-column>
 
     </el-table>

@@ -14,8 +14,8 @@
         <el-input v-model="dataForm.telephone" placeholder="客户手机"></el-input>
       </el-form-item>
       <el-form-item label="价格" prop="price">
-        <el-input v-model="dataForm.price" placeholder="价格"></el-input>
-        <p>元</p>
+        <el-input v-model="dataForm.price" placeholder="价格" style="width:50%"></el-input>
+        <label> 元</label>
       </el-form-item>
       <el-form-item label="备注" prop="remark">
         <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" v-model="dataForm.remark" placeholder="备注"></el-input>

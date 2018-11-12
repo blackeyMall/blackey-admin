@@ -1,29 +1,34 @@
 <template>
   <div class="mod-user">
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
-      <el-form-item>
+      <!-- <el-form-item>
         <el-input v-model="dataForm.userName" placeholder="用户名" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
-      </el-form-item>
+      </el-form-item> -->
     </el-form>
-    <el-table :data="dataList" border v-loading="dataListLoading" @selection-change="selectionChangeHandle" style="width: 100%;">
-      <el-table-column type="selection" header-align="center" align="center" width="50">
+    <el-table :data="dataList" border v-loading="dataListLoading" @selection-change="selectionChangeHandle" :fit="true">
+      <el-table-column type="selection" header-align="center" align="center">
       </el-table-column>
-      <el-table-column prop="city" header-align="center" align="center" width="100" label="城市">
+      <el-table-column prop="avatarUrl" header-align="center" align="center" label="头像">
+        <template slot-scope="scope">
+          <img :src="scope.row.avatarUrl" alt="" style="width: 100%; max-width: 50px; border-radius: 50%;">
+        </template>
       </el-table-column>
-      <el-table-column prop="groupId" header-align="center" align="center" width="100" label="分组ID">
+      <el-table-column prop="nickName" header-align="center" align="center" label="昵称">
       </el-table-column>
-      <el-table-column prop="headImgUrl" header-align="center" align="center" width="100" label="头像">
+      <el-table-column prop="country" header-align="center" align="center" label="国家">
       </el-table-column>
-      <el-table-column prop="openId" header-align="center" align="center" width="100" label="唯一标识">
+      <el-table-column prop="province" header-align="center" align="center" label="省">
       </el-table-column>
-      <el-table-column prop="province" header-align="center" align="center" width="100" label="省">
+      <el-table-column prop="city" header-align="center" align="center" label="城市">
       </el-table-column>
-      <el-table-column prop="sex" header-align="center" align="center" width="100" label="性别">
+      <!-- <el-table-column prop="openId" header-align="center" align="center" label="唯一标识">
+      </el-table-column> -->
+      <el-table-column prop="gender" header-align="center" align="center" label="性别">
       </el-table-column>
-      <el-table-column prop="createdDate" header-align="center" align="center" width="100" label="用户注册时间">
+      <el-table-column prop="createdDate" header-align="center" align="center" label="用户注册时间">
       </el-table-column>
     </el-table>
     <el-pagination @size-change="sizeChangeHandle" @current-change="currentChangeHandle" :current-page="pageIndex" :page-sizes="[10, 20, 50, 100]" :page-size="pageSize" :total="totalPage" layout="total, sizes, prev, pager, next, jumper">

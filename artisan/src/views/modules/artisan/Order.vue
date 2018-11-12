@@ -1,11 +1,11 @@
 <template>
   <div class="mod-order">
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
-      <el-form-item>
+      <!-- <el-form-item>
         <el-input v-model="dataForm.userName" placeholder="用户名" clearable></el-input>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item>
-        <el-button @click="getDataList()">查询</el-button>
+        <!-- <el-button @click="getDataList()">查询</el-button> -->
         <el-button v-if="isAuth('sys:order:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
         <el-button v-if="isAuth('sys:order:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
       </el-form-item>
@@ -13,23 +13,21 @@
     <el-table :data="dataList" border v-loading="dataListLoading" @selection-change="selectionChangeHandle">
       <el-table-column type="selection" header-align="center" align="center" width="50">
       </el-table-column>
-      <el-table-column prop="id" header-align="center" style="display:none" v-show="false" align="center" width="100" label="">
+      <el-table-column prop="orderNo" header-align="center" align="center" label="订单编号">
       </el-table-column>
-      <el-table-column prop="createdDate" header-align="center" align="center" width="100" label="下单时间">
+      <el-table-column prop="createdDate" header-align="center" align="center" label="下单时间">
       </el-table-column>
-      <el-table-column prop="serviceNo" header-align="center" align="center" width="100" label="服务编号">
+      <el-table-column prop="projectName" header-align="center" align="center" label="服务项目">
       </el-table-column>
-      <el-table-column prop="orderNo" header-align="center" align="center" width="100" label="订单编号">
+      <el-table-column prop="telephone" header-align="center" align="center" label="用户手机">
       </el-table-column>
-      <el-table-column prop="userId" header-align="center" align="center" width="100" label="用户ID">
+      <el-table-column prop="serviceTime" header-align="center" align="center" label="服务时间">
       </el-table-column>
-      <el-table-column prop="projectId" header-align="center" align="center" width="100" label="项目ID">
-      </el-table-column>
-      <el-table-column prop="orderStatus.name" header-align="center" align="center" width="100" label="订单状态">
+      <el-table-column prop="orderStatus.name" header-align="center" align="center" label="订单状态">
       </el-table-column>
       <el-table-column fixed="right" header-align="center" align="center" width="150" label="操作">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="confirmHandle(scope.row.serviceNo)">订单确认</el-button>
+          <el-button type="text" size="small" @click="confirmHandle(scope.row.id)">订单确认</el-button>
           <el-button type="text" size="small" @click="serviceProcessHandle(scope.row.projectId,scope.row.id)">服务进度</el-button>
           <el-button type="text" size="small" @click="materialHandle(scope.row.materialId,scope.row.id)">材料清单</el-button>
         </template>
@@ -82,12 +80,16 @@ export default {
     getDataList() {
       this.dataListLoading = true;
       this.$http({
-        url: this.$http.adornUrl("/artisan/order/list/page"),
-        method: "get",
-        params: this.$http.adornParams({})
+        url: this.$http.adornUrl("/artisan/order/list"),
+        method: "post",
+        data: this.$http.adornData({
+          orderStatus: "DEFAULT",
+          current: this.dataForm.current,
+          size: this.dataForm.size
+        })
       }).then(({ data }) => {
         if (data && data.code === 200) {
-          this.dataList = data.data.list;
+          this.dataList = data.data.records;
           this.totalPage = data.data.totalCount;
         } else {
           this.dataList = [];
@@ -125,6 +127,7 @@ export default {
       });
     },
     serviceProcessHandle(id, orderId) {
+      console.log(id + "-----------");
       this.ServiceProcess = true;
       this.$nextTick(() => {
         this.$refs.serviceProcess.init(id, orderId);

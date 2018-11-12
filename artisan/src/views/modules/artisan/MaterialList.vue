@@ -2,9 +2,9 @@
   <el-dialog title="材料清单" :close-on-click-modal="false" :visible.sync="visible">
     <el-form :model="dataForm" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
       <el-form-item label="清单图片" prop="picUrl">
-        <img v-show="showImage" :src="dataForm.picUrl" alt="">
-        <el-upload v-show="showUpload" action="/artisan/file/upload" list-type="picture-card" :on-success="showImageHandle">
-          <i class="el-icon-plus"></i>
+        <el-upload action="/artisan/file/upload" :on-success="showImageHandle" style="mar">
+          <img :src="dataForm.picUrl" style="width:50% ;float: left">
+          <el-button size="small" type="primary">点击上传</el-button>
         </el-upload>
       </el-form-item>
       </el-form-item>

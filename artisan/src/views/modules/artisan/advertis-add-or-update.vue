@@ -9,16 +9,14 @@
         <!-- <el-input v-model="dataForm.picPosition" placeholder="图片位置"></el-input> -->
       </el-form-item>
       <el-form-item label="图片" prop="remark">
-        <el-form-item label="清单图片" prop="picUrl">
-          <img v-show="!showUpload" :src="dataForm.picUrl" alt="">
-          <el-upload v-show="showUpload" action="/artisan/file/upload" list-type="picture-card" :on-success="showImageHandle">
-            <i class="el-icon-plus"></i>
-          </el-upload>
-        </el-form-item>
+        <el-upload action="/artisan/file/upload" :on-success="showImageHandle" style="mar">
+          <img :src="dataForm.picUrl" style="width:50% ;float: left">
+          <el-button size="small" type="primary">点击上传</el-button>
+        </el-upload>
       </el-form-item>
-      <el-form-item label="排序值" prop="remark">
+      <!-- <el-form-item label="排序值" prop="remark">
         <el-input v-model="dataForm.adsOrder" placeholder="排序值"></el-input>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="跳转URL" prop="remark">
         <el-input v-model="dataForm.redirectUrl" placeholder="跳转URL"></el-input>
       </el-form-item>
@@ -69,6 +67,7 @@ export default {
     init(id) {
       this.dataForm.id = id || 0;
       this.visible = true;
+      this.showUpload = false;
       this.$nextTick(() => {
         this.$refs["dataForm"].resetFields();
         if (this.dataForm.id) {
@@ -80,7 +79,7 @@ export default {
             params: this.$http.adornParams()
           }).then(({ data }) => {
             if (data && data.code === 200) {
-              this.dataForm.picPosition = data.data.picPosition;
+              this.dataForm.picPosition = data.data.picPosition.name;
               this.dataForm.picUrl = data.data.picUrl;
               this.dataForm.adsOrder = data.data.adsOrder;
               this.dataForm.redirectUrl = data.data.redirectUrl;
@@ -105,7 +104,7 @@ export default {
             method: "post",
             data: this.$http.adornData({
               id: this.dataForm.id || undefined,
-              picPosition: this.dataForm.picPosition,
+              picPosition: this.dataForm.picPosition.value,
               adsOrder: this.dataForm.adsOrder,
               redirectUrl: this.dataForm.redirectUrl,
               adsRemark: this.dataForm.adsRemark,

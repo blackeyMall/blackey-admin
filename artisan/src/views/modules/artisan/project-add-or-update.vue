@@ -5,9 +5,9 @@
         <el-input v-model="dataForm.name" placeholder="项目分类名称"></el-input>
       </el-form-item>
       <el-form-item label="缩略图" prop="picUrl">
-        <img v-show="!showUpload" :src="dataForm.picUrl" alt="">
-        <el-upload v-show="showUpload" action="/artisan/file/upload" list-type="picture-card" :on-success="showImageHandle">
-          <i class="el-icon-plus"></i>
+        <el-upload action="/artisan/file/upload" list-type="picture" :on-success="showImageHandle" style="mar">
+          <img :src="dataForm.picUrl" style="width:50% ;float: left">
+          <el-button size="small" type="primary">点击上传</el-button>
         </el-upload>
       </el-form-item>
       <el-form-item label="项目描述" prop="proDesc">

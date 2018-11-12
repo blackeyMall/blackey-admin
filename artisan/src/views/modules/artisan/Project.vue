@@ -1,27 +1,30 @@
 <template>
   <div class="mod-project">
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
-      <el-form-item>
+      <!-- <el-form-item>
         <el-input v-model="dataForm.userName" placeholder="用户名" clearable></el-input>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item>
-        <el-button @click="getDataList()">查询</el-button>
+        <!-- <el-button @click="getDataList()">查询</el-button> -->
         <el-button type="primary" @click="addOrUpdateHandle()">新增</el-button>
         <el-button type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
       </el-form-item>
     </el-form>
     <el-table :data="dataList" border v-loading="dataListLoading" @selection-change="selectionChangeHandle" style="width: 100%;">
-      <el-table-column type="selection" header-align="center" align="center" width="50">
+      <el-table-column type="selection" header-align="center" align="center">
       </el-table-column>
-      <el-table-column prop="createdDate" header-align="center" align="center" width="100" label="创建时间">
+      <el-table-column prop="name" header-align="center" align="center" label="项目名称">
       </el-table-column>
-      <el-table-column prop="name" header-align="center" align="center" width="100" label="项目名称">
+      <el-table-column prop="picUrl" header-align="center" align="center" label="图片">
+        <template slot-scope="scope">
+          <img :src="scope.row.picUrl" alt="" style="width: 100%; max-width: 50px;">
+        </template>
       </el-table-column>
-      <el-table-column prop="picUrl" header-align="center" align="center" width="100" label="图片">
+      <el-table-column prop="proDesc" header-align="center" align="center" label="项目描述">
       </el-table-column>
-      <el-table-column prop="proDesc" header-align="center" align="center" width="100" label="项目描述">
+      <el-table-column prop="createdDate" header-align="center" align="center" label="创建时间">
       </el-table-column>
-      <el-table-column fixed="right" header-align="center" align="center" width="150" label="操作">
+      <el-table-column fixed="right" header-align="center" align="center" label="操作">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">修改</el-button>
           <el-button type="text" size="small" @click="deleteHandle(scope.row.id)">删除</el-button>

@@ -1,43 +1,46 @@
 <template>
-    <div class="mod-advertis">
-        <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
-            <el-form-item>
-                <el-input v-model="dataForm.userName" placeholder="用户名" clearable></el-input>
-            </el-form-item>
-            <el-form-item>
-                <el-button @click="getDataList()">查询</el-button>
-                <el-button type="primary" @click="addOrUpdateHandle()">新增</el-button>
-                <el-button type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
-            </el-form-item>
-        </el-form>
-        <el-table :data="dataList" border v-loading="dataListLoading" @selection-change="selectionChangeHandle" style="width: 100%;">
-            <el-table-column type="selection" header-align="center" align="center" width="50">
-            </el-table-column>
+  <div class="mod-advertis">
+    <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
+      <!-- <el-form-item>
+        <el-input v-model="dataForm.userName" placeholder="用户名" clearable></el-input>
+      </el-form-item> -->
+      <el-form-item>
+        <!-- <el-button @click="getDataList()">查询</el-button> -->
+        <el-button type="primary" @click="addOrUpdateHandle()">新增</el-button>
+        <el-button type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
+      </el-form-item>
+    </el-form>
+    <el-table :data="dataList" border v-loading="dataListLoading" @selection-change="selectionChangeHandle" style="width: 100%;">
+      <el-table-column type="selection" header-align="center" align="center" width="50">
+      </el-table-column>
 
-            <el-table-column prop="picPosition.name" header-align="center" align="center" width="100" label="图片位置">
-            </el-table-column>
-            <el-table-column prop="picUrl" header-align="center" align="center" width="100" label="图片地址">
-            </el-table-column>
-            <el-table-column prop="adsRemark" header-align="center" align="center" width="100" label="备注">
-            </el-table-column>
-            <el-table-column prop="adsOrder" header-align="center" align="center" width="100" label="排序">
-            </el-table-column>
-            <el-table-column prop="redirectUrl" header-align="center" align="center" width="100" label="重定向的地址">
-            </el-table-column>
+      <el-table-column prop="picPosition.name" header-align="center" align="center" label="图片位置">
+      </el-table-column>
+      <el-table-column prop="picUrl" header-align="center" align="center" label="图片地址">
+        <template slot-scope="scope">
+          <img :src="scope.row.picUrl" alt="" style="width: 100%; max-width: 50px;">
+        </template>
+      </el-table-column>
+      <el-table-column prop="adsRemark" header-align="center" align="center" label="备注">
+      </el-table-column>
+      <!-- <el-table-column prop="adsOrder" header-align="center" align="center" label="排序">
+      </el-table-column> -->
+      <el-table-column prop="redirectUrl" header-align="center" align="center" label="重定向的地址">
+      </el-table-column>
 
-            <el-table-column fixed="right" header-align="center" align="center" width="150" label="操作">
-                <template slot-scope="scope">
-                    <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">修改</el-button>
-                    <el-button type="text" size="small" @click="deleteHandle(scope.row.id)">删除</el-button>
-                </template>
-            </el-table-column>
+      <el-table-column fixed="right" header-align="center" align="center" width="150" label="操作">
+        <template slot-scope="scope">
+          <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">修改</el-button>
+          <el-button type="text" size="small" @click="deleteHandle(scope.row.id)">删除</el-button>
+        </template>
+      </el-table-column>
 
-        </el-table>
-        <el-pagination @size-change="sizeChangeHandle" @current-change="currentChangeHandle" :current-page="pageIndex" :page-sizes="[10, 20, 50, 100]" :page-size="pageSize" :total="totalPage" layout="total, sizes, prev, pager, next, jumper">
-        </el-pagination>
-        <!-- 弹窗, 新增 / 修改 -->
-        <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
-    </div>
+    </el-table>
+    <el-pagination @size-change="sizeChangeHandle" @current-change="currentChangeHandle" :current-page="pageIndex" :page-sizes="[10, 20, 50, 100]" :page-size="pageSize" :total="totalPage" layout="total, sizes, prev, pager, next, jumper">
+    </el-pagination>
+    <!-- 弹窗, 新增 / 修改 -->
+    <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
+  </div>
 </template>
 
 

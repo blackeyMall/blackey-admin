@@ -2,25 +2,22 @@
   <div class="mod-feedback">
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
       <el-form-item>
-        <el-input v-model="dataForm.userName" placeholder="用户名" clearable></el-input>
+        <!-- <el-input v-model="dataForm.userName" placeholder="用户名" clearable></el-input> -->
       </el-form-item>
       <el-form-item>
-        <el-button @click="getDataList()">查询</el-button>
+        <!-- <el-button @click="getDataList()">查询</el-button> -->
       </el-form-item>
     </el-form>
     <el-table :data="dataList" border v-loading="dataListLoading" @selection-change="selectionChangeHandle" style="width: 100%;">
       <el-table-column type="selection" header-align="center" align="center" width="50">
       </el-table-column>
-
-      <el-table-column prop="createdDate" header-align="center" align="center" width="100" label="">
+      <el-table-column prop="createdDate" header-align="center" align="center" label="创建时间">
       </el-table-column>
-      <el-table-column prop="content" header-align="center" align="center" width="100" label="">
+      <el-table-column prop="content" header-align="center" align="center" label="反馈内容">
       </el-table-column>
-      <el-table-column prop="userId" header-align="center" align="center" width="100" label="">
+      <el-table-column prop="orderId" header-align="center" align="center" label="订单号">
       </el-table-column>
-      <el-table-column prop="orderId" header-align="center" align="center" width="100" label="">
-      </el-table-column>
-      <el-table-column prop="feedBackType" header-align="center" align="center" width="100" label="">
+      <el-table-column prop="feedBackType.name" header-align="center" align="center" label="反馈类型">
       </el-table-column>
     </el-table>
     <el-pagination @size-change="sizeChangeHandle" @current-change="currentChangeHandle" :current-page="pageIndex" :page-sizes="[10, 20, 50, 100]" :page-size="pageSize" :total="totalPage" layout="total, sizes, prev, pager, next, jumper">

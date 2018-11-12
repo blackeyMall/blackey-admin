@@ -2,9 +2,10 @@
   <el-dialog title="新增服务进度" :close-on-click-modal="false" :visible.sync="visible" append-to-body>
     <el-form :model="dataForm" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
       <el-form-item label="服务图片" prop="picUrl">
-        <img v-show="showImage" :src="dataForm.picUrl" alt="">
-        <el-upload v-show="showUpload" action="/artisan/file/upload" list-type="picture-card" :on-success="showImageHandle">
-          <i class="el-icon-plus"></i>
+        <el-upload action="/artisan/file/upload" :file-list="picUrls" list-type="picture" :before-upload="uploadCheck" :on-success="showImageHandle" style="mar">
+          <!-- <img :src="dataForm.picUrl" style="width:50% ;float: left"> -->
+
+          <el-button size="small" type="primary">点击上传</el-button>
         </el-upload>
       </el-form-item>
       </el-form-item>
@@ -41,13 +42,17 @@ export default {
     init(orderId) {
       this.dataForm.orderId = orderId;
       this.visible = true;
-      this.$nextTick(() => {
-        this.$refs["dataForm"].resetFields();
-        this.showUpload = true;
-      });
+      this.picUrls = [];
+      this.$refs["dataForm"].resetFields();
+    },
+    uploadCheck() {
+      if (this.picUrls.length >= 4) {
+        alert("图片上传不能超过4个。");
+        return false;
+      }
+      return true;
     },
     showImageHandle(res) {
-      this.showImage = true;
       this.picUrls.push(res.data);
     },
     dataFormSubmit() {
