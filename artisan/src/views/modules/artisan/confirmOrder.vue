@@ -5,7 +5,7 @@
         <el-input v-model="dataForm.name" placeholder="客户姓名"></el-input>
       </el-form-item>
       <el-form-item label="施工地址" prop="address">
-        <el-input v-model="dataForm.address" placeholder="客户姓名"></el-input>
+        <el-input v-model="dataForm.address" placeholder="施工地址"></el-input>
       </el-form-item>
       <el-form-item label="施工时间" prop="serviceTime">
         <el-input v-model="dataForm.serviceTime" placeholder="施工时间"></el-input>

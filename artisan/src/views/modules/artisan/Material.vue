@@ -83,7 +83,10 @@ export default {
       this.$http({
         url: this.$http.adornUrl("/sys/${classname}/list"),
         method: "get",
-        params: this.$http.adornParams({})
+        params: this.$http.adornParams({
+          page: this.pageIndex,
+          limit: this.pageSize
+        })
       }).then(({ data }) => {
         if (data && data.code === 200) {
           this.dataList = data.data.list;

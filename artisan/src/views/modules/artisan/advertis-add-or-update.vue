@@ -67,7 +67,7 @@ export default {
     init(id) {
       this.dataForm.id = id || 0;
       this.visible = true;
-      this.showUpload = false;
+      this.dataForm.picUrl = "";
       this.$nextTick(() => {
         this.$refs["dataForm"].resetFields();
         if (this.dataForm.id) {
@@ -79,7 +79,7 @@ export default {
             params: this.$http.adornParams()
           }).then(({ data }) => {
             if (data && data.code === 200) {
-              this.dataForm.picPosition = data.data.picPosition.name;
+              this.dataForm.picPosition = data.data.picPosition.value;
               this.dataForm.picUrl = data.data.picUrl;
               this.dataForm.adsOrder = data.data.adsOrder;
               this.dataForm.redirectUrl = data.data.redirectUrl;

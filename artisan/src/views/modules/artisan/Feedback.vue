@@ -11,14 +11,24 @@
     <el-table :data="dataList" border v-loading="dataListLoading" @selection-change="selectionChangeHandle" style="width: 100%;">
       <el-table-column type="selection" header-align="center" align="center" width="50">
       </el-table-column>
-      <el-table-column prop="createdDate" header-align="center" align="center" label="创建时间">
-      </el-table-column>
       <el-table-column prop="content" header-align="center" align="center" label="反馈内容">
       </el-table-column>
-      <el-table-column prop="orderId" header-align="center" align="center" label="订单号">
+      <!-- <el-table-column prop="orderId" header-align="center" align="center" label="订单号">
+      </el-table-column> -->
+      <el-table-column prop="picUrls" header-align="center" align="center" label="图片">
+        <template slot-scope="scope">
+          <div class="imgs" style="display: flex;">
+            <div v-for="item of scope.row.picUrls" class="img" style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; margin: 0 5px;">
+              <img :src="item" style="width: 100%; position: relative; top: 50%; transform: translateY(-50%);">
+            </div>
+          </div>
+        </template>
       </el-table-column>
       <el-table-column prop="feedBackType.name" header-align="center" align="center" label="反馈类型">
       </el-table-column>
+      <el-table-column prop="createdDate" header-align="center" align="center" label="创建时间">
+      </el-table-column>
+
     </el-table>
     <el-pagination @size-change="sizeChangeHandle" @current-change="currentChangeHandle" :current-page="pageIndex" :page-sizes="[10, 20, 50, 100]" :page-size="pageSize" :total="totalPage" layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
@@ -58,7 +68,10 @@ export default {
       this.$http({
         url: this.$http.adornUrl("/artisan/feedback/list/page"),
         method: "get",
-        params: this.$http.adornParams({})
+        params: this.$http.adornParams({
+          page: this.pageIndex,
+          limit: this.pageSize
+        })
       }).then(({ data }) => {
         if (data && data.code === 200) {
           this.dataList = data.data.list;

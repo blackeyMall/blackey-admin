@@ -72,7 +72,9 @@ export default {
         url: this.$http.adornUrl("/artisan/serviceprocess/query/process"),
         method: "post",
         data: this.$http.adornData({
-          orderId: this.orderId
+          orderId: this.orderId,
+          page: this.pageIndex,
+          limit: this.pageSize
         })
       }).then(({ data }) => {
         if (data && data.code === 200) {

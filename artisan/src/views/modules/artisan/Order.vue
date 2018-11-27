@@ -30,6 +30,7 @@
           <el-button type="text" size="small" @click="confirmHandle(scope.row.id)">订单确认</el-button>
           <el-button type="text" size="small" @click="serviceProcessHandle(scope.row.projectId,scope.row.id)">服务进度</el-button>
           <el-button type="text" size="small" @click="materialHandle(scope.row.materialId,scope.row.id)">材料清单</el-button>
+          <el-button type="text" size="small" @click="confirmToDone(scope.row.id)">确认完成</el-button>
         </template>
       </el-table-column>
 
@@ -84,8 +85,8 @@ export default {
         method: "post",
         data: this.$http.adornData({
           orderStatus: "DEFAULT",
-          current: this.dataForm.current,
-          size: this.dataForm.size
+          current: this.pageIndex,
+          size: this.pageSize
         })
       }).then(({ data }) => {
         if (data && data.code === 200) {
@@ -131,6 +132,38 @@ export default {
       this.ServiceProcess = true;
       this.$nextTick(() => {
         this.$refs.serviceProcess.init(id, orderId);
+      });
+    },
+    confirmToDone(id) {
+      this.$confirm(`确定对该订单进行完成操作?`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(() => {
+        this.$http({
+          url: this.$http.adornUrl("/artisan/order/update"),
+          method: "post",
+          data: this.$http.adornData({
+            id: id,
+            orderStatus: "DONE"
+          })
+        })
+          .then(({ data }) => {
+            if (data && data.code === 200) {
+              this.$message({
+                message: "操作成功",
+                type: "success",
+                duration: 1500,
+                onClose: () => {
+                  this.getDataList();
+                }
+              });
+            } else {
+              //需要添加 data.messge
+              this.$message.error();
+            }
+          })
+          .catch(() => {});
       });
     },
     // 删除

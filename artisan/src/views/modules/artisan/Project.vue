@@ -70,7 +70,10 @@ export default {
       this.$http({
         url: this.$http.adornUrl("/artisan/project/list/page"),
         method: "get",
-        params: this.$http.adornParams({})
+        params: this.$http.adornParams({
+          page: this.pageIndex,
+          limit: this.pageSize
+        })
       }).then(({ data }) => {
         if (data && data.code === 200) {
           this.dataList = data.data.list;
@@ -125,7 +128,7 @@ export default {
           this.$http({
             url: this.$http.adornUrl("/artisan/project/delete"),
             method: "post",
-            data: this.$http.adornData(userIds, false)
+            data: this.$http.adornData(ids, false)
           }).then(({ data }) => {
             if (data && data.code === 200) {
               this.$message({

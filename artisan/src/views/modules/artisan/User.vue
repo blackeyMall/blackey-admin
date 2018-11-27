@@ -69,7 +69,10 @@ export default {
       this.$http({
         url: this.$http.adornUrl("/artisan/user/list/page"),
         method: "get",
-        params: this.$http.adornParams({})
+        params: this.$http.adornParams({
+          page: this.pageIndex,
+          limit: this.pageSize
+        })
       }).then(({ data }) => {
         if (data && data.code === 200) {
           this.dataList = data.data.list;
