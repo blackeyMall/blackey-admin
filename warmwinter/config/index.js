@@ -26,11 +26,11 @@ module.exports = {
           '^/quartz': '/quartz'
         }
       },
-      '/artisan': {
+      '/flowers': {
         target: 'http://localhost:1099',
         changeOrigin: true,
         pathRewrite: {
-          '^/artisan': '/artisan'
+          '^/flowers': '/flowers'
         }
       }
     },
