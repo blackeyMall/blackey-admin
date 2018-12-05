@@ -23,6 +23,8 @@
       </el-table-column>
       <el-table-column prop="tradeStatus.name" header-align="center" align="center" label="订单状态">
       </el-table-column>
+      <el-table-column prop="refereeName" header-align="center" align="center" label="推荐人姓名">
+      </el-table-column>
       <el-table-column v-if="show" prop="tradeStatus.value" header-align="center" align="center">
       </el-table-column>
       <el-table-column fixed="right" header-align="center" align="center" width="150" label="操作">

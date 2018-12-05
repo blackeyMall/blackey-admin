@@ -18,6 +18,8 @@
       </el-table-column>
       <el-table-column prop="channel" header-align="center" align="center" label="推荐人渠道">
       </el-table-column>
+      <el-table-column prop="orderNum" header-align="center" align="center" label="订单数量">
+      </el-table-column>
       <el-table-column fixed="right" header-align="center" align="center" width="150" label="操作">
         <template slot-scope="scope">
           <el-button v-if="isAuth('flowers:referee:update')" type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">修改</el-button>
@@ -62,20 +64,23 @@ export default {
       this.dataListLoading = true;
       this.$http({
         url: this.$http.adornUrl("/flowers/referee/list/page"),
-        method: "get",
-        params: this.$http.adornParams({
-          page: this.pageIndex,
-          limit: this.pageSize
+        method: "post",
+        data: this.$http.adornData({
+          name: "",
+          channel:"",
+          current: this.pageIndex,
+          size: this.pageSize
         })
       }).then(({ data }) => {
         if (data && data.code === 200) {
-          this.dataList = data.data.list;
+          this.dataList = data.data.records;
           this.totalPage = data.data.total;
         } else {
           this.dataList = [];
           this.totalPage = 0;
         }
         this.dataListLoading = false;
+        
       });
     },
     // 每页数
