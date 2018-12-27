@@ -47,6 +47,18 @@
         align="center"
         label="手机号">
       </el-table-column>
+       <el-table-column
+        prop="roleType"
+        header-align="center"
+        align="center"
+        label="用户类型">
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.roleType === 1" size="small" type="danger">超级管理员</el-tag>
+          <el-tag v-if="scope.row.roleType === 2" size="small" type="danger">租户管理员</el-tag>
+          <el-tag v-if="scope.row.roleType === 3" size="small" >用户</el-tag>
+          <el-tag v-if="scope.row.roleType === 4" size="small" >游客</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column
         prop="status"
         header-align="center"
