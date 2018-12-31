@@ -13,7 +13,7 @@
         <el-form-item label="法人姓名" prop="legalPerson">
           <el-input v-model="dataForm.legalPerson" placeholder="法人姓名"></el-input>
         </el-form-item>
-        <el-form-item label="用户名" prop="userName">
+        <el-form-item v-if="!dataForm.id" label="用户名" prop="userName">
           <el-input v-model="dataForm.userName" placeholder="用户名"></el-input>
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
@@ -22,6 +22,12 @@
         <el-form-item label="手机号" prop="telephone">
           <el-input v-model="dataForm.telephone" placeholder="手机号"></el-input>
         </el-form-item>
+        <el-form-item label="状态" size="mini" prop="status">
+        <el-radio-group v-model="dataForm.status">
+          <el-radio :label="0">禁用</el-radio>
+          <el-radio :label="1">正常</el-radio>
+        </el-radio-group>
+      </el-form-item>
          <el-form-item size="mini" label="授权">
         <el-tree
           :data="menuList"
@@ -74,7 +80,8 @@ export default {
           companyWebsite: '',
           legalPerson: '',
           email: '',
-          telephone: ''
+          telephone: '',
+          status:'1'
         },
         dataRule: {
           company: [
@@ -124,6 +131,7 @@ export default {
                 this.dataForm.legalPerson = data.data.legalPerson;
                 this.dataForm.email = data.data.email;
                 this.dataForm.telephone = data.data.telephone;
+                this.dataForm.status = data.data.status;
                 this.dataForm.userName = data.data.userName;
                 var idx = data.data.menuIdList.indexOf(this.tempKey)
                 if (idx !== -1) {
@@ -153,6 +161,7 @@ export default {
               legalPerson: this.dataForm.legalPerson,
               email: this.dataForm.email,
               telephone: this.dataForm.telephone,
+              status: this.dataForm.status,
               userName:this.dataForm.userName,
               menuIdList: [].concat(this.$refs.menuListTree.getCheckedKeys(), [this.tempKey], this.$refs.menuListTree.getHalfCheckedKeys())
             })
