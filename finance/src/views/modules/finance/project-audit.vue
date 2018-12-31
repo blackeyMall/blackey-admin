@@ -38,7 +38,7 @@
         label="操作">
         <template slot-scope="scope">
           <el-button v-if="scope.row.auditStatus.value === 'WAITING' && isAuth('finance:audit:update')" type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">审批</el-button>
-          <!-- <el-button v-if="isAuth('finance:audit:update')" type="text" size="small" @click="requireDetailInfo(scope.row.objectId)">查看需求详情</el-button> -->
+          <el-button v-if="isAuth('finance:audit:update')" type="text" size="small" @click="projectDetailInfo(scope.row.objectId)">查看项目详情</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -46,12 +46,14 @@
     </el-pagination>
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
+    <project-detail v-if="projectDetailVisible" ref="projectDetail" @refreshDataList="getDataList"></project-detail>
   </div>
 </template>
 
 
 <script>
 import AddOrUpdate from "./audit-add-or-update";
+import ProjectDetail from "./project-detail";
 export default {
   data() {
     return {
@@ -78,11 +80,13 @@ export default {
       totalPage: 0,
       dataListLoading: false,
       dataListSelections: [],
-      addOrUpdateVisible: false
+      addOrUpdateVisible: false,
+      projectDetailVisible: false
     };
   },
   components: {
-    AddOrUpdate
+    AddOrUpdate,
+    ProjectDetail
   },
   activated() {
     this.getDataList();
@@ -134,11 +138,10 @@ export default {
       });
     },
     // 项目详情
-    requireDetailInfo(objectId) {
-      alert(objectId);
-      this.addOrUpdateVisible = true;
+    projectDetailInfo(id) {
+      this.projectDetailVisible = true;
       this.$nextTick(() => {
-        this.$refs.addOrUpdate.init(id);
+        this.$refs.projectDetail.init(id);
       });
     }
   }

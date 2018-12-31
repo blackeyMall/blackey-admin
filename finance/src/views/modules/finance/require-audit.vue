@@ -38,7 +38,7 @@
         label="操作">
         <template slot-scope="scope">
           <el-button v-if="scope.row.auditStatus.value === 'WAITING' && isAuth('finance:audit:update')" type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">审批</el-button>
-          <!-- <el-button v-if="isAuth('finance:audit:update')" type="text" size="small" @click="requireDetailInfo(scope.row.objectId)">查看需求详情</el-button> -->
+          <el-button v-if="isAuth('finance:audit:update')" type="text" size="small" @click="requireDetailInfo(scope.row.objectId)">查看需求详情</el-button>
         </template>
       </el-table-column>
     </el-table>

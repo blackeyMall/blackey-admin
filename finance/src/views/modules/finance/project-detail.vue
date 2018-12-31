@@ -1,8 +1,17 @@
 <template>
-  <el-dialog :title="!dataForm.id ? '需求详情' : '需求详情'" :close-on-click-modal="false" :visible.sync="visible">
+  <el-dialog :title="!dataForm.id ? '项目详情' : '项目详情'" :close-on-click-modal="false" :visible.sync="visible">
     <el-form :model="dataForm" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
       <el-form-item label="项目名称" prop="name">
         <el-input v-model="dataForm.name" ></el-input>
+      </el-form-item>
+      <el-form-item label="项目创建人" prop="userName">
+        <el-input v-model="dataForm.userName" ></el-input>
+      </el-form-item>
+       <el-form-item label="创建人所属公司" prop="company">
+        <el-input v-model="dataForm.company" ></el-input>
+      </el-form-item>
+        <el-form-item label="创建人职位" prop="duties">
+        <el-input v-model="dataForm.duties" ></el-input>
       </el-form-item>
       <el-form-item label="项目简介" prop="brief">
         <el-input type="textarea" v-model="dataForm.brief"></el-input>
@@ -16,8 +25,8 @@
       <el-form-item label="融资阶段" prop="financeRound">
         <el-input v-model="dataForm.financeRound" ></el-input>
       </el-form-item>
-      <el-form-item label="类别" prop="category.name">
-        <el-input v-model="dataForm.category.value" ></el-input>
+      <el-form-item label="类别" prop="category">
+        <el-input v-model="dataForm.category.name" ></el-input>
       </el-form-item>
       <el-form-item label="BP附件" prop="attachment">
         <el-input v-model="dataForm.attachment" ></el-input>
@@ -38,9 +47,13 @@ export default {
       auditStatus:'SUCCESS',
       dataForm: {
         id: 0,
-        objectType: "",
-        objectId:"",
-        reason: ""
+        name: "",
+        brief:"",
+        label: "",
+        financeAmount:"",
+        financeRound:"",
+        category: "",
+        attachment:"",
       }
     };
   },
@@ -51,14 +64,21 @@ export default {
       this.$nextTick(() => {
         this.$refs["dataForm"].resetFields();
         this.$http({
-            url: this.$http.adornUrl(`/finance/require/info/${this.dataForm.id}`),
+            url: this.$http.adornUrl(`/finance/project/info/${this.dataForm.id}`),
             method: "get",
             params: this.$http.adornParams()
           }).then(({ data }) => {
             if (data && data.code === 200) {
-              this.dataForm.objectType = data.data.objectType.value;
-              this.dataForm.objectId = data.data.objectId;
-              this.dataForm.reason = data.data.reason;
+              this.dataForm.name = data.data.name;
+              this.dataForm.userName = data.data.userName;
+              this.dataForm.company = data.data.company;
+              this.dataForm.duties = data.data.duties;
+              this.dataForm.brief = data.data.brief;
+              this.dataForm.label = data.data.label;
+              this.dataForm.financeAmount = data.data.financeAmount;
+              this.dataForm.financeRound = data.data.financeRound;
+              this.dataForm.category = data.data.category;
+              this.dataForm.attachment = data.data.attachment;
             }
           });
       });
