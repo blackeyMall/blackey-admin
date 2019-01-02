@@ -44,6 +44,10 @@
       userName: {
         get () { return this.$store.state.user.name },
         set (val) { this.$store.commit('user/updateName', val) }
+      },
+      roleType: {
+        get () { return this.$store.state.user.roleType },
+        set (val) { this.$store.commit('user/updateRoleType', val) }
       }
     },
     created () {
@@ -71,6 +75,7 @@
             this.loading = false
             this.userId = data.data.userId
             this.userName = data.data.username
+            this.roleType = data.data.roleType
           }
         })
       }

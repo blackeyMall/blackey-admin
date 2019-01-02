@@ -19,6 +19,17 @@
       <el-form-item label="手机号" prop="mobile">
         <el-input v-model="dataForm.mobile" placeholder="手机号"></el-input>
       </el-form-item>
+      <el-form-item label="用户类型" prop="roleType">
+        <el-select v-model="roleType" placeholder="请选择">
+          <el-option
+            v-for="item in options"
+            :key="item.roleType"
+            :label="item.label"
+            :value="item.roleType">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      
       <el-form-item label="角色" size="mini" prop="roleIdList">
         <el-checkbox-group v-model="dataForm.roleIdList">
           <el-checkbox v-for="role in roleList" :key="role.roleId" :label="role.roleId">{{ role.roleName }}</el-checkbox>
@@ -73,6 +84,17 @@
         }
       }
       return {
+        options: [{
+          roleType: 2,
+          label: '管理员'
+        }, {
+          roleType: 3,
+          label: '用户'
+        }, {
+          roleType: 4,
+          label: '游客'
+        }],
+        roleType: 3,
         visible: false,
         roleList: [],
         dataForm: {
@@ -134,7 +156,8 @@
                 this.dataForm.email = data.data.email
                 this.dataForm.mobile = data.data.mobile
                 this.dataForm.roleIdList = data.data.roleIdList
-                this.dataForm.status = data.data.status
+                this.dataForm.status = data.data.status,
+                this.roleType = data.data.roleType
               }
             })
           }
@@ -155,7 +178,8 @@
                 'email': this.dataForm.email,
                 'mobile': this.dataForm.mobile,
                 'status': this.dataForm.status,
-                'roleIdList': this.dataForm.roleIdList
+                'roleIdList': this.dataForm.roleIdList,
+                'roleType': this.roleType
               })
             }).then(({data}) => {
               if (data && data.code === 200) {

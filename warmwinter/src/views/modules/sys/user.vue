@@ -76,6 +76,13 @@
         width="180"
         label="创建时间">
       </el-table-column>
+      <el-table-column v-if="this.$store.state.user.roleType != 1"
+        prop="tenantName"
+        header-align="center"
+        align="center"
+        width="180"
+        label="租户名称">
+      </el-table-column>
       <el-table-column
         fixed="right"
         header-align="center"
@@ -131,16 +138,16 @@
         this.dataListLoading = true
         this.$http({
           url: this.$http.adornUrl('/sys/user/list'),
-          method: 'get',
-          params: this.$http.adornParams({
-            'page': this.pageIndex,
-            'limit': this.pageSize,
-            'username': this.dataForm.userName
+          method: 'post',
+          data: this.$http.adornData({
+            'current': this.pageIndex,
+            'size': this.pageSize,
+            'userName': this.dataForm.userName
           })
         }).then(({data}) => {
           if (data && data.code === 200) {
-            this.dataList = data.data.list
-            this.totalPage = data.data.totalCount
+            this.dataList = data.data.records
+            this.totalPage = data.data.total
           } else {
             this.dataList = []
             this.totalPage = 0
@@ -181,7 +188,7 @@
           type: 'warning'
         }).then(() => {
           this.$http({
-            url: this.$http.adornUrl('/flowers/goods/delete'),
+            url: this.$http.adornUrl('/sys/user/delete'),
             method: 'post',
             data: this.$http.adornData(userIds, false)
           }).then(({data}) => {
