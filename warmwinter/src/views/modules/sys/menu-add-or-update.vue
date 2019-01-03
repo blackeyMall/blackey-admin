@@ -67,6 +67,12 @@
           </el-col>
         </el-row>
       </el-form-item>
+      <el-form-item label="是否系统菜单" size="mini" prop="isSystemMenu">
+        <el-radio-group v-model="dataForm.isSystemMenu">
+          <el-radio :label="0">否</el-radio>
+          <el-radio :label="1">是</el-radio>
+        </el-radio-group>
+      </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
       <el-button @click="visible = false">取消</el-button>
@@ -100,6 +106,7 @@
           perms: '',
           orderNum: 0,
           icon: '',
+          isSystemMenu: 0,
           iconList: []
         },
         dataRule: {
@@ -156,6 +163,7 @@
               this.dataForm.perms = data.data.perms
               this.dataForm.orderNum = data.data.orderNum
               this.dataForm.icon = data.data.icon
+              this.dataForm.isSystemMenu = data.data.isSystemMenu
               this.menuListTreeSetCurrentNode()
             })
           }
@@ -190,6 +198,7 @@
                 'url': this.dataForm.url,
                 'perms': this.dataForm.perms,
                 'orderNum': this.dataForm.orderNum,
+                'isSystemMenu': this.dataForm.isSystemMenu,
                 'icon': this.dataForm.icon
               })
             }).then(({data}) => {
