@@ -81,7 +81,7 @@ export default {
           legalPerson: '',
           email: '',
           telephone: '',
-          status:'1'
+          status:1
         },
         dataRule: {
           company: [
