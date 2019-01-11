@@ -13,7 +13,7 @@ module.exports = {
     // 代理列表, 是否开启代理通过[./dev.env.js]配置
     proxyTable: /* devEnv.OPEN_PROXY === false ? {} : */ {
       '/sys': {
-        target: 'http://localhost:1098',
+        target: 'http://localhost:1091',
         changeOrigin: true,
         pathRewrite: {
           '^/sys': '/sys'
@@ -27,10 +27,24 @@ module.exports = {
         }
       },
       '/finance': {
-        target: 'http://localhost:1099',
+        target: 'http://localhost:1101',
         changeOrigin: true,
         pathRewrite: {
           '^/finance': '/finance'
+        }
+      },
+      '/flowers': {
+        target: 'http://localhost:1100',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/flowers': '/flowers'
+        }
+      },
+      '/artisan': {
+        target: 'http://localhost:1099',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/artisan': '/artisan'
         }
       }
     },
