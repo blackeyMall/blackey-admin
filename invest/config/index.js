@@ -14,7 +14,7 @@ module.exports = {
     // 代理列表, 是否开启代理通过[./dev.env.js]配置
     proxyTable: /*devEnv.OPEN_PROXY === false ? {} :*/ {
         '/sys': {
-          target: 'http://localhost:1008',
+          target: 'http://localhost:1098',
           changeOrigin: true,
           pathRewrite: {
             '^/sys': '/sys'

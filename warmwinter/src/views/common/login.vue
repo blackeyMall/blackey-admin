@@ -78,7 +78,7 @@ export default {
             })
           }).then(({ data }) => {
             if (data && data.code === 200) {
-              this.$cookie.set("token", data.data);
+              this.$cookie.set("token", data.data.token);
               this.$router.replace({ name: "home" });
             } else {
               this.getCaptcha();
