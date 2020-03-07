@@ -8,16 +8,20 @@
       <el-input v-model="dataForm.title" placeholder="标题"></el-input>
     </el-form-item>
     <el-form-item label="详细内容" prop="content">
-      <el-input v-model="dataForm.content" placeholder="详细内容"></el-input>
+      <quill-editor ref="editer" v-model="dataForm.content" class="myQuillEditor" :options="editorOption" style="height: 500px;"/>
     </el-form-item>
     <el-form-item label="简介" prop="briefContent">
       <el-input v-model="dataForm.briefContent" placeholder="简介"></el-input>
     </el-form-item>
     <el-form-item label="状态（1待发布，2已发布3下架）" prop="status">
-      <el-input v-model="dataForm.status" placeholder="状态（1待发布，2已发布3下架）"></el-input>
-    </el-form-item>
-    <el-form-item label="排序" prop="sort">
-      <el-input v-model="dataForm.sort" placeholder="排序"></el-input>
+      <el-select v-model="value" placeholder="请选择">
+            <el-option
+              v-for="item in taskStatusOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+        </el-select>
     </el-form-item>
     <el-form-item label="共需完成人数" prop="totalPeoples">
       <el-input v-model="dataForm.totalPeoples" placeholder="共需完成人数"></el-input>
@@ -34,7 +38,7 @@
     <el-form-item label="任务截止时间" prop="endTime">
       <el-input v-model="dataForm.endTime" placeholder="任务截止时间"></el-input>
     </el-form-item>
-    <el-form-item label="任务截止时间" prop="firstTime">
+    <el-form-item label="任务开始时间" prop="firstTime">
       <el-input v-model="dataForm.firstTime" placeholder="任务截止时间"></el-input>
     </el-form-item>
     <el-form-item label="分享次数" prop="shareNum">
@@ -67,15 +71,6 @@
     <el-form-item label="当日浏览次数" prop="dayViewNum">
       <el-input v-model="dataForm.dayViewNum" placeholder="当日浏览次数"></el-input>
     </el-form-item>
-    <el-form-item label="关键词" prop="keyWord">
-      <el-input v-model="dataForm.keyWord" placeholder="关键词"></el-input>
-    </el-form-item>
-    <el-form-item label="用户id" prop="userId">
-      <el-input v-model="dataForm.userId" placeholder="用户id"></el-input>
-    </el-form-item>
-    <el-form-item label="用户名称" prop="userName">
-      <el-input v-model="dataForm.userName" placeholder="用户名称"></el-input>
-    </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
       <el-button @click="visible = false">取消</el-button>
@@ -85,9 +80,24 @@
 </template>
 
 <script>
+import { quillEditor } from 'vue-quill-editor'
+  import 'quill/dist/quill.core.css'
+  import 'quill/dist/quill.snow.css'
+  import 'quill/dist/quill.bubble.css'
   export default {
     data () {
       return {
+
+        taskStatusOptions: [{
+          value: '1',
+          label: '待发布'
+        }, {
+          value: '2',
+          label: '已发布'
+        }, {
+          value: '3',
+          label: '下架'
+        }],
         visible: false,
         dataForm: {
           id: 0,
@@ -137,6 +147,9 @@
           ]
         }
       }
+    },
+    components: {
+      quillEditor
     },
     methods: {
       init (id) {

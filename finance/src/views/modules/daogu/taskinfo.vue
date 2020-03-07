@@ -6,7 +6,7 @@
       </el-form-item>
       <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
-        <el-button v-if="isAuth('generator:taskinfo:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
+        <el-button v-if="isAuth('generator:taskinfo:save')" type="primary" @click="addTaskInfoHandle()">新增</el-button>
         <el-button v-if="isAuth('generator:taskinfo:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
       </el-form-item>
     </el-form>
@@ -35,12 +35,6 @@
         label="标题">
       </el-table-column>
       <el-table-column
-        prop="content"
-        header-align="center"
-        align="center"
-        label="详细内容">
-      </el-table-column>
-      <el-table-column
         prop="briefContent"
         header-align="center"
         align="center"
@@ -51,12 +45,11 @@
         header-align="center"
         align="center"
         label="状态（1待发布，2已发布3下架）">
-      </el-table-column>
-      <el-table-column
-        prop="sort"
-        header-align="center"
-        align="center"
-        label="排序">
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.status === '1'" size="small" >待发布</el-tag>
+          <el-tag v-else-if="scope.row.status === '2'" size="small">已发布</el-tag>
+          <el-tag v-else size="small" type="danger">下架</el-tag>
+        </template>
       </el-table-column>
       <el-table-column
         prop="totalPeoples"
@@ -89,90 +82,6 @@
         label="任务截止时间">
       </el-table-column>
       <el-table-column
-        prop="firstTime"
-        header-align="center"
-        align="center"
-        label="任务截止时间">
-      </el-table-column>
-      <el-table-column
-        prop="shareNum"
-        header-align="center"
-        align="center"
-        label="分享次数">
-      </el-table-column>
-      <el-table-column
-        prop="unlikeNum"
-        header-align="center"
-        align="center"
-        label="踩次数">
-      </el-table-column>
-      <el-table-column
-        prop="likeNum"
-        header-align="center"
-        align="center"
-        label="点赞次数">
-      </el-table-column>
-      <el-table-column
-        prop="dayUnlikeNum"
-        header-align="center"
-        align="center"
-        label="当日踩次数">
-      </el-table-column>
-      <el-table-column
-        prop="dayLikeNum"
-        header-align="center"
-        align="center"
-        label="当日点赞次数">
-      </el-table-column>
-      <el-table-column
-        prop="followNum"
-        header-align="center"
-        align="center"
-        label="关注次数">
-      </el-table-column>
-      <el-table-column
-        prop="commentNum"
-        header-align="center"
-        align="center"
-        label="评论次数">
-      </el-table-column>
-      <el-table-column
-        prop="viewNum"
-        header-align="center"
-        align="center"
-        label="浏览量">
-      </el-table-column>
-      <el-table-column
-        prop="dayCommentNum"
-        header-align="center"
-        align="center"
-        label="当日评论次数">
-      </el-table-column>
-      <el-table-column
-        prop="dayViewNum"
-        header-align="center"
-        align="center"
-        label="当日浏览次数">
-      </el-table-column>
-      <el-table-column
-        prop="keyWord"
-        header-align="center"
-        align="center"
-        label="关键词">
-      </el-table-column>
-      <el-table-column
-        prop="userId"
-        header-align="center"
-        align="center"
-        label="用户id">
-      </el-table-column>
-      <el-table-column
-        prop="userName"
-        header-align="center"
-        align="center"
-        label="用户名称">
-      </el-table-column>
-      <el-table-column
         fixed="right"
         header-align="center"
         align="center"
@@ -195,11 +104,13 @@
     </el-pagination>
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
+    <add-task-info v-if="addTaskInfoVisible" ref="addTaskInfo" @refreshDataList="getDataList"></add-task-info>
   </div>
 </template>
 
 <script>
   import AddOrUpdate from './taskinfo-add-or-update'
+  import AddTaskInfo from './taskinfo-add-info'
   export default {
     data () {
       return {
@@ -212,11 +123,13 @@
         totalPage: 0,
         dataListLoading: false,
         dataListSelections: [],
-        addOrUpdateVisible: false
+        addOrUpdateVisible: false,
+        addTaskInfoVisible: false
       }
     },
     components: {
-      AddOrUpdate
+      AddOrUpdate,
+      AddTaskInfo
     },
     activated () {
       this.getDataList()
@@ -264,6 +177,14 @@
         this.addOrUpdateVisible = true
         this.$nextTick(() => {
           this.$refs.addOrUpdate.init(id)
+        })
+      },
+      // 新增
+      addTaskInfoHandle (id) {
+        alert("2222");
+        this.addTaskInfoVisible = true
+        this.$nextTick(() => {
+          this.$refs.addTaskInfo.init(id)
         })
       },
       // 删除
