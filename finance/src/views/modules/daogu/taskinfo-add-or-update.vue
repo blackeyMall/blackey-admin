@@ -159,7 +159,7 @@ import { quillEditor } from 'vue-quill-editor'
           this.$refs['dataForm'].resetFields()
           if (this.dataForm.id) {
             this.$http({
-              url: this.$http.adornUrl(`/sys/bbs/task/info/${this.dataForm.id}`),
+              url: this.$http.adornUrl(`/sys/daogu/task/info/${this.dataForm.id}`),
               method: 'get',
               params: this.$http.adornParams()
             }).then(({data}) => {
@@ -198,7 +198,7 @@ import { quillEditor } from 'vue-quill-editor'
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
             this.$http({
-              url: this.$http.adornUrl(`/sys/bbs/task/${!this.dataForm.id ? 'save' : 'update'}`),
+              url: this.$http.adornUrl(`/sys/daogu/task/${!this.dataForm.id ? 'save' : 'update'}`),
               method: 'post',
               data: this.$http.adornData({
                 'id': this.dataForm.id || undefined,

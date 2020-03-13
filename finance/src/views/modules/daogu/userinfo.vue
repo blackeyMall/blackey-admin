@@ -178,7 +178,7 @@
       getDataList () {
         this.dataListLoading = true
         this.$http({
-          url: this.$http.adornUrl('/sys/bbs/user/list/page'),
+          url: this.$http.adornUrl('/sys/daogu/user/list/page'),
           method: 'post',
           data: this.$http.adornData({
             'current': this.pageIndex,
@@ -228,7 +228,7 @@
           type: 'warning'
         }).then(() => {
           this.$http({
-            url: this.$http.adornUrl('/sys/bbs/user/delete'),
+            url: this.$http.adornUrl('/sys/daogu/user/delete'),
             method: 'post',
             data: this.$http.adornData(ids, false)
           }).then(({data}) => {
